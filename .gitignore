@@ -6,6 +6,6 @@
 *.ear
 
 #Intellij
-*/.idea
+/*.idea
 */target
 settings.xml
