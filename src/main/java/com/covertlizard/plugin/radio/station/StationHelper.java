@@ -93,7 +93,7 @@ public class StationHelper
             ItemStack stack = new ItemStack(Material.RECORD_9, 1);
             ItemMeta meta = stack.getItemMeta();
             meta.setDisplayName(stationName);
-            meta.setLore(Arrays.asList(ChatColor.GREEN + "Click on me to listen to the hottest " + stationName + " songs!"));
+            meta.setLore(Arrays.asList(ChatColor.GREEN + "Click on me to listen to the hottest " + stationName + ChatColor.GREEN + " songs!"));
             stack.setItemMeta(meta);
             if(this.initStations.size() == this.inventorySize - 2)
             {
