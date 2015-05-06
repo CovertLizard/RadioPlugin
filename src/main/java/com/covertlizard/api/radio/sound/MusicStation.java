@@ -31,18 +31,20 @@ public class MusicStation implements Receiver
     //Integers
     private int currentSongID, runnableTaskID = 0;
     //Booleans
-    private boolean stationStarted, taskStarted, musicPlaying, musicPaused = false;
+    private boolean stationStarted, taskStarted, musicPlaying, musicPaused, randomSong = false;
 
     /**
      * Used for playing music to players in this station
      *
      * @param plugin the plugin that instantiated this object
      * @param stationName the music station's name
+     * @param randomSong whether or not to play a random song after one finishes
      */
-    public MusicStation(JavaPlugin plugin, String stationName) throws MidiUnavailableException
+    public MusicStation(JavaPlugin plugin, String stationName, boolean randomSong) throws MidiUnavailableException
     {
         this.plugin = plugin;
         this.stationName = stationName;
+        this.randomSong = randomSong;
 
         this.STATION_FOLDER = this.plugin.getDataFolder().getPath().replace(this.plugin.getName(), "") + "Stations" + File.separator + this.stationName;
 
@@ -136,7 +138,12 @@ public class MusicStation implements Receiver
      */
     public void playNextSong()
     {
-        String nextSong = getNextSongName();
+        String nextSong = this.randomSong ? this.songNames[new Random().nextInt(this.songNames.length)] : getNextSongName();
+        if(nextSong.equalsIgnoreCase(this.currentSong))
+        {
+            playNextSong();
+            return;
+        }
         StationPlayNextSongEvent event = new StationPlayNextSongEvent(this, nextSong);
         this.plugin.getServer().getPluginManager().callEvent(event);
         if(event.isCancelled()) return;

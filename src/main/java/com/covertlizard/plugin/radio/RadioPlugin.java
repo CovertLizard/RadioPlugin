@@ -52,8 +52,8 @@ public class RadioPlugin extends JavaPlugin
     public void registerStations()
     {
         //example stations (quite simple to create no?) ;-)
-        this.stationHelper.registerStation(ChatColor.LIGHT_PURPLE + "Pop");
-        this.stationHelper.registerStation(ChatColor.GREEN + "Techno");
-        this.stationHelper.registerStation(ChatColor.AQUA + "Oldies");
+        this.stationHelper.registerStation(ChatColor.LIGHT_PURPLE + "Pop", true); //use true if you want the station to randomly pick the next song
+        this.stationHelper.registerStation(ChatColor.GREEN + "Techno", false);
+        this.stationHelper.registerStation(ChatColor.AQUA + "Oldies", false);
     }
 }

@@ -83,13 +83,13 @@ public class StationHelper
      * Registers a station
      * @param stationName the station's name
      */
-    public void registerStation(String stationName)
+    public void registerStation(String stationName, boolean playRandomSong)
     {
         if(this.stationExists(stationName)) return;
         this.initStations.add(stationName);
         try
         {
-            this.stations.add(new MusicStation(this.plugin, ChatColor.stripColor(stationName)));
+            this.stations.add(new MusicStation(this.plugin, ChatColor.stripColor(stationName), playRandomSong));
             ItemStack stack = new ItemStack(Material.RECORD_9, 1);
             ItemMeta meta = stack.getItemMeta();
             meta.setDisplayName(stationName);
