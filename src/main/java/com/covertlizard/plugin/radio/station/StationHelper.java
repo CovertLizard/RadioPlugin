@@ -1,6 +1,7 @@
 package com.covertlizard.plugin.radio.station;
 
 import com.covertlizard.api.radio.sound.MusicStation;
+import com.covertlizard.plugin.radio.reference.Reference;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -167,6 +168,11 @@ public class StationHelper
     {
         if(this.isInStation(player))
         {
+            if(this.getPlayerStation(player).equals(station))
+            {
+                player.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "You are already tuned into " + ChatColor.WHITE + station.getStationName());
+                return;
+            }
             this.getPlayerStation(player).tuneOut(player.getUniqueId());
         }
         station.tuneIn(player.getUniqueId());

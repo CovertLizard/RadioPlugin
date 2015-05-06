@@ -69,6 +69,7 @@ public class RadioListener implements Listener
         if(event.getInventory() == null) return;
         if(!event.getInventory().equals(this.plugin.stationHelper.getInventory())) return;
         event.setCancelled(true);
+        if(event.getCurrentItem() == null || event.getCurrentItem().equals(Material.AIR)) return;
         if(event.getCurrentItem().getType().equals(Material.RECORD_9))
         {
             if(!this.plugin.stationHelper.stationExists(event.getCurrentItem().getItemMeta().getDisplayName())) return;
