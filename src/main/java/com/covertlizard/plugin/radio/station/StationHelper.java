@@ -87,7 +87,7 @@ public class StationHelper
     public void registerStation(String stationName, boolean playRandomSong)
     {
         if(this.stationExists(stationName)) return;
-        this.initStations.add(stationName);
+        if(!this.initStations.contains(stationName)) this.initStations.add(stationName);
         try
         {
             this.stations.add(new MusicStation(this.plugin, ChatColor.stripColor(stationName), playRandomSong));

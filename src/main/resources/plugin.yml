@@ -13,9 +13,13 @@ permissions:
             radio.basic: true
             radio.use: true
             radio.pause: true
+            radio.reload: true
             radio.stop.*: true
     radio.stop.*:
         description: Gives access to all stop commands
+        default: op
+    radio.reload:
+        description: Reloads the radio plugin
         default: op
     radio.pause:
         description: Allows you to pause a music station

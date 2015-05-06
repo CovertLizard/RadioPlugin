@@ -180,7 +180,21 @@ public class RadioCommandExecutor implements CommandExecutor
                     sender.sendMessage(ChatColor.RED + "/radio start" + ChatColor.DARK_AQUA + " This starts the music station you're in.");
                     sender.sendMessage(ChatColor.RED + "/radio start <station>" + ChatColor.DARK_AQUA + " This starts the music station specified.");
                     sender.sendMessage(ChatColor.RED + "/radio start all" + ChatColor.DARK_AQUA + " This starts every music station.");
+
+                    sender.sendMessage(ChatColor.RED + "/radio reload" + ChatColor.DARK_AQUA + " Reloads the plugin.");
                     sender.sendMessage(ChatColor.GOLD + "================================================");
+                    break;
+                case "reload":
+                    if(sender.hasPermission("radio.reload"))
+                    {
+                        sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.BLUE + "Reloaded radio plugin.");
+                        this.plugin.stationHelper.stopStations();
+                        this.plugin.stationHelper.clearStations();
+                        this.plugin.registerStations();
+                        this.plugin.stationHelper.startStations();
+                        break;
+                    }
+                    sendPermissionInvalidMessage(sender);
                     break;
                 default:
                     sender.sendMessage(Reference.PLUGIN_PREFIX + "Unknown argument: " + args[0] + ", type /radio help to view available arguments.");
