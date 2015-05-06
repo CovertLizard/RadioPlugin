@@ -69,16 +69,22 @@ public class RadioListener implements Listener
         if(event.getInventory() == null) return;
         if(!event.getInventory().equals(this.plugin.stationHelper.getInventory())) return;
         event.setCancelled(true);
-        if(event.getCurrentItem() == null || event.getCurrentItem().equals(Material.AIR)) return;
-        if(event.getCurrentItem().getType().equals(Material.RECORD_9))
+        try
         {
-            if(!this.plugin.stationHelper.stationExists(event.getCurrentItem().getItemMeta().getDisplayName())) return;
-            this.plugin.stationHelper.setPlayerStation((Player) event.getWhoClicked(), this.plugin.stationHelper.getStationFromName(event.getCurrentItem().getItemMeta().getDisplayName()));
-            return;
-        }
-        if(event.getCurrentItem().getType().equals(Material.LEVER))
+            if (event.getCurrentItem().getType().equals(Material.RECORD_9))
+            {
+                if (!this.plugin.stationHelper.stationExists(event.getCurrentItem().getItemMeta().getDisplayName()))
+                    return;
+                this.plugin.stationHelper.setPlayerStation((Player) event.getWhoClicked(), this.plugin.stationHelper.getStationFromName(event.getCurrentItem().getItemMeta().getDisplayName()));
+                return;
+            }
+            if (event.getCurrentItem().getType().equals(Material.LEVER))
+            {
+                this.plugin.stationHelper.toggleMute((Player) event.getWhoClicked());
+            }
+        } catch (NullPointerException e)
         {
-            this.plugin.stationHelper.toggleMute((Player) event.getWhoClicked());
+            return; //yeah ik... I can't figure out how to prevent it though...
         }
     }
     @EventHandler
