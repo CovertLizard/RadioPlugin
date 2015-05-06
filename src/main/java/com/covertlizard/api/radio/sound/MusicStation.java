@@ -50,6 +50,7 @@ public class MusicStation implements Receiver
 
         this.start();
         this.loadMidiFiles();
+        if(this.songNames.length <= 1) this.randomSong = false; //Disables nubs from using the random boolean with 1 song
     }
     //--------------------------------------------------------------
     //                       MusicStation methods
@@ -139,7 +140,7 @@ public class MusicStation implements Receiver
     public void playNextSong()
     {
         String nextSong = this.randomSong ? this.songNames[new Random().nextInt(this.songNames.length)] : getNextSongName();
-        if(nextSong.equalsIgnoreCase(this.currentSong))
+        if(this.randomSong && nextSong.equalsIgnoreCase(this.currentSong))
         {
             playNextSong();
             return;
