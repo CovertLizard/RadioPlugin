@@ -1,9 +1,9 @@
-package com.covertlizard.plugin.radio;
+package org.bukkit.covertlizard.plugin.radio;
 
-import com.covertlizard.plugin.radio.command.RadioCommandExecutor;
-import com.covertlizard.plugin.radio.listener.RadioListener;
-import com.covertlizard.plugin.radio.listener.StationListener;
-import com.covertlizard.plugin.radio.station.StationHelper;
+import org.bukkit.covertlizard.plugin.radio.command.RadioCommandExecutor;
+import org.bukkit.covertlizard.plugin.radio.listener.RadioListener;
+import org.bukkit.covertlizard.plugin.radio.listener.StationListener;
+import org.bukkit.covertlizard.plugin.radio.station.StationHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -52,8 +52,8 @@ public class RadioPlugin extends JavaPlugin
     public void registerStations()
     {
         //example stations (quite simple to create no?) ;-)
-        this.stationHelper.registerStation(ChatColor.LIGHT_PURPLE + "Pop", true); //use true if you want the station to randomly pick the next song
-        this.stationHelper.registerStation(ChatColor.GREEN + "Techno", false);
-        this.stationHelper.registerStation(ChatColor.AQUA + "Oldies", false);
+        this.stationHelper.registerStation(ChatColor.LIGHT_PURPLE + "Pop", true, 2000); //use true if you want the station to randomly pick the next song
+        this.stationHelper.registerStation(ChatColor.GREEN + "Techno", false, 1000); //the integer at the end is the interval inbetween playing the next song (milliseconds)
+        this.stationHelper.registerStation(ChatColor.AQUA + "Oldies", false, 0);
     }
 }

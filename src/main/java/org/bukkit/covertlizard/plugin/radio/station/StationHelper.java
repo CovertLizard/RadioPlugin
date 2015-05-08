@@ -1,7 +1,7 @@
-package com.covertlizard.plugin.radio.station;
+package org.bukkit.covertlizard.plugin.radio.station;
 
-import com.covertlizard.api.radio.sound.MusicStation;
-import com.covertlizard.plugin.radio.reference.Reference;
+import org.bukkit.covertlizard.api.radio.sound.MusicStation;
+import org.bukkit.covertlizard.plugin.radio.reference.Reference;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -52,14 +52,14 @@ public class StationHelper
      */
     public void startStations()
     {
-        this.stations.forEach(MusicStation::play);
+        for(MusicStation station : this.stations) station.play();
     }
     /**
      * Stops all stations from playing music
      */
     public void stopStations()
     {
-        this.stations.forEach(MusicStation::stop);
+        for(MusicStation station : this.stations) station.stop();
     }
     /**
      * Pauses/Un-pauses all stations
@@ -84,13 +84,13 @@ public class StationHelper
      * Registers a station
      * @param stationName the station's name
      */
-    public void registerStation(String stationName, boolean playRandomSong)
+    public void registerStation(String stationName, boolean playRandomSong, int interval)
     {
         if(this.stationExists(stationName)) return;
         if(!this.initStations.contains(stationName)) this.initStations.add(stationName);
         try
         {
-            this.stations.add(new MusicStation(this.plugin, ChatColor.stripColor(stationName), playRandomSong));
+            this.stations.add(new MusicStation(this.plugin, ChatColor.stripColor(stationName), playRandomSong, interval));
             ItemStack stack = new ItemStack(Material.RECORD_9, 1);
             ItemMeta meta = stack.getItemMeta();
             meta.setDisplayName(stationName);

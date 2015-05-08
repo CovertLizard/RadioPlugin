@@ -1,6 +1,6 @@
-package com.covertlizard.plugin.radio.listener;
+package org.bukkit.covertlizard.plugin.radio.listener;
 
-import com.covertlizard.plugin.radio.RadioPlugin;
+import org.bukkit.covertlizard.plugin.radio.RadioPlugin;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

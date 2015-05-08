@@ -1,4 +1,4 @@
-package com.covertlizard.plugin.radio.reference;
+package org.bukkit.covertlizard.plugin.radio.reference;
 
 import org.bukkit.ChatColor;
 

@@ -1,6 +1,6 @@
 name: Radio
 version: 0.1
-main: com.covertlizard.plugin.radio.RadioPlugin
+main: RadioPlugin
 commands:
     radio:
         description: The main radio command
