@@ -1,7 +1,7 @@
-package org.bukkit.covertlizard.plugin.radio.listener;
+package org.covertlizard.bukkit.plugin.radio.listener;
 
 import org.bukkit.covertlizard.api.radio.event.station.*;
-import org.bukkit.covertlizard.plugin.radio.reference.Reference;
+import org.covertlizard.bukkit.plugin.radio.reference.Reference;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;

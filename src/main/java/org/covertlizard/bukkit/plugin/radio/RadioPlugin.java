@@ -1,9 +1,9 @@
-package org.bukkit.covertlizard.plugin.radio;
+package org.covertlizard.bukkit.plugin.radio;
 
-import org.bukkit.covertlizard.plugin.radio.command.RadioCommandExecutor;
-import org.bukkit.covertlizard.plugin.radio.listener.RadioListener;
-import org.bukkit.covertlizard.plugin.radio.listener.StationListener;
-import org.bukkit.covertlizard.plugin.radio.station.StationHelper;
+import org.covertlizard.bukkit.plugin.radio.command.RadioCommandExecutor;
+import org.covertlizard.bukkit.plugin.radio.listener.RadioListener;
+import org.covertlizard.bukkit.plugin.radio.listener.StationListener;
+import org.covertlizard.bukkit.plugin.radio.station.StationHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 

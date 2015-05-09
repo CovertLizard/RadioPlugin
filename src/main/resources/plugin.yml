@@ -1,6 +1,6 @@
 name: Radio
 version: 0.1
-main: RadioPlugin
+main: org.covertlizard.bukkit.plugin.radio.RadioPlugin
 commands:
     radio:
         description: The main radio command

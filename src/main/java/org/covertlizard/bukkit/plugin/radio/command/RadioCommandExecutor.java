@@ -1,8 +1,8 @@
-package org.bukkit.covertlizard.plugin.radio.command;
+package org.covertlizard.bukkit.plugin.radio.command;
 
 import org.bukkit.covertlizard.api.radio.sound.MusicStation;
-import org.bukkit.covertlizard.plugin.radio.RadioPlugin;
-import org.bukkit.covertlizard.plugin.radio.reference.Reference;
+import org.covertlizard.bukkit.plugin.radio.RadioPlugin;
+import org.covertlizard.bukkit.plugin.radio.reference.Reference;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

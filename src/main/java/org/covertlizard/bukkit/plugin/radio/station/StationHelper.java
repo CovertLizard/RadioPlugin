@@ -1,7 +1,7 @@
-package org.bukkit.covertlizard.plugin.radio.station;
+package org.covertlizard.bukkit.plugin.radio.station;
 
 import org.bukkit.covertlizard.api.radio.sound.MusicStation;
-import org.bukkit.covertlizard.plugin.radio.reference.Reference;
+import org.covertlizard.bukkit.plugin.radio.reference.Reference;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
