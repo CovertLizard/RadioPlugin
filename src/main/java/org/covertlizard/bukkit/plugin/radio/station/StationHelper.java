@@ -1,6 +1,6 @@
 package org.covertlizard.bukkit.plugin.radio.station;
 
-import org.bukkit.covertlizard.api.radio.sound.MusicStation;
+import com.covertlizard.api.radio.midi.MidiStation;
 import org.covertlizard.bukkit.plugin.radio.reference.Reference;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,7 +23,7 @@ import java.util.List;
 public class StationHelper
 {
     //Enumerables
-    private List<MusicStation> stations = new ArrayList<>();
+    private List<MidiStation> stations = new ArrayList<>();
     private List<String> initStations = new ArrayList<>();
     //Booleans
     private boolean stationsPaused = false;
@@ -52,23 +52,33 @@ public class StationHelper
      */
     public void startStations()
     {
-        for(MusicStation station : this.stations) station.play();
+        for(MidiStation station : this.stations)
+        {
+            try
+            {
+                station.load();
+                station.begin();
+            } catch (MidiUnavailableException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
     /**
      * Stops all stations from playing music
      */
     public void stopStations()
     {
-        for(MusicStation station : this.stations) station.stop();
+        for(MidiStation station : this.stations) station.exit();
     }
     /**
      * Pauses/Un-pauses all stations
      */
     public void pauseStations()
     {
-        for(MusicStation station : this.stations)
+        for(MidiStation station : this.stations)
         {
-            if(station.isMusicPaused() != stationsPaused) continue;
+            if(station.isPaused() != stationsPaused) continue;
             station.pause();
         }
         this.stationsPaused = !this.stationsPaused;
@@ -90,7 +100,7 @@ public class StationHelper
         if(!this.initStations.contains(stationName)) this.initStations.add(stationName);
         try
         {
-            this.stations.add(new MusicStation(this.plugin, ChatColor.stripColor(stationName), playRandomSong, interval));
+            this.stations.add(new MidiStation(this.plugin, ChatColor.stripColor(stationName), playRandomSong, interval));
             ItemStack stack = new ItemStack(Material.RECORD_9, 1);
             ItemMeta meta = stack.getItemMeta();
             meta.setDisplayName(stationName);
@@ -122,9 +132,9 @@ public class StationHelper
      * @param stationName the station's name
      * @return the station instance
      */
-    public MusicStation getStationFromName(String stationName)
+    public MidiStation getStationFromName(String stationName)
     {
-        for(MusicStation station : this.stations) if(station.getStationName().toLowerCase().equalsIgnoreCase(ChatColor.stripColor(stationName))) return station;
+        for(MidiStation station : this.stations) if(station.getStationID().toLowerCase().equalsIgnoreCase(ChatColor.stripColor(stationName))) return station;
         return null;
     }
     /**
@@ -134,13 +144,8 @@ public class StationHelper
     public void toggleMute(Player player)
     {
         if(!isInStation(player)) return;
-        MusicStation station = this.getPlayerStation(player);
-        if(!station.isMuted(player.getUniqueId()))
-        {
-            station.mute(player.getUniqueId());
-            return;
-        }
-        station.unMute(player.getUniqueId());
+        MidiStation station = this.getPlayerStation(player);
+        station.mute(player.getUniqueId());
     }
     public boolean isInStation(Player player)
     {
@@ -151,11 +156,11 @@ public class StationHelper
      * @param player the player instance
      * @return the station they're in
      */
-    public MusicStation getPlayerStation(Player player)
+    public MidiStation getPlayerStation(Player player)
     {
-        for(MusicStation station : this.stations)
+        for(MidiStation station : this.stations)
         {
-            if(station.getTunedPlayers().contains(player.getUniqueId())) return station;
+            if(station.getPlayers().contains(player.getUniqueId())) return station;
         }
         return null;
     }
@@ -164,23 +169,19 @@ public class StationHelper
      * @param player the player instance
      * @param station the station instance
      */
-    public void setPlayerStation(Player player, MusicStation station)
+    public void setPlayerStation(Player player, MidiStation station)
     {
-        if(this.isInStation(player))
+        if(this.isInStation(player) && this.getPlayerStation(player).equals(station))
         {
-            if(this.getPlayerStation(player).equals(station))
-            {
-                player.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "You are already tuned into " + ChatColor.WHITE + station.getStationName());
-                return;
-            }
-            this.getPlayerStation(player).tuneOut(player.getUniqueId());
+            player.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "You are already tuned into " + ChatColor.WHITE + station.getStationID());
+            return;
         }
-        station.tuneIn(player.getUniqueId());
+        station.tune(player.getUniqueId());
     }
     //=========================================
     //               Getters
     //=========================================
-    public List<MusicStation> getStations()
+    public List<MidiStation> getStations()
     {
         return this.stations;
     }

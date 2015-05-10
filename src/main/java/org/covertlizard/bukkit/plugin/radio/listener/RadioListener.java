@@ -49,7 +49,8 @@ public class RadioListener implements Listener
     {
         if(this.plugin.stationHelper.isInStation(event.getPlayer()))
         {
-            this.plugin.stationHelper.getPlayerStation(event.getPlayer()).tuneOut(event.getPlayer().getUniqueId());
+            if(!this.plugin.stationHelper.getPlayerStation(event.getPlayer()).isTuned(event.getPlayer().getUniqueId())) return;
+            this.plugin.stationHelper.getPlayerStation(event.getPlayer()).tune(event.getPlayer().getUniqueId());
         }
     }
     @EventHandler

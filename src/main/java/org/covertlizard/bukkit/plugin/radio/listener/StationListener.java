@@ -1,6 +1,6 @@
 package org.covertlizard.bukkit.plugin.radio.listener;
 
-import org.bukkit.covertlizard.api.radio.event.station.*;
+import com.covertlizard.api.radio.event.station.*;
 import org.covertlizard.bukkit.plugin.radio.reference.Reference;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,16 +18,16 @@ public class StationListener implements Listener
     @EventHandler
     private void onStationNextSongEvent(StationPlayNextSongEvent event)
     {
-        for(UUID uuid : event.getMusicStation().getTunedPlayers())
+        for(UUID uuid : event.getStation().getPlayers())
         {
-            Bukkit.getPlayer(uuid).sendMessage(Reference.PLUGIN_PREFIX + ChatColor.YELLOW + "Now playing " + ChatColor.WHITE + event.getNextSong());
+            Bukkit.getPlayer(uuid).sendMessage(Reference.PLUGIN_PREFIX + ChatColor.YELLOW + "Now playing " + ChatColor.WHITE + event.getSong().getTitle());
         }
     }
     @EventHandler
     private void onPlayerTuneInEvent(StationTuneInEvent event)
     {
-        event.getPlayer().sendMessage(Reference.PLUGIN_PREFIX + ChatColor.YELLOW + "Tuning into the " + ChatColor.WHITE + event.getMusicStation().getStationName() + ChatColor.YELLOW + " station.");
-        event.getPlayer().sendMessage(Reference.PLUGIN_PREFIX + ChatColor.YELLOW + "Currently playing " + ChatColor.WHITE + event.getMusicStation().getCurrentSong());
+        event.getPlayer().sendMessage(Reference.PLUGIN_PREFIX + ChatColor.YELLOW + "Tuning into the " + ChatColor.WHITE + event.getStation().getStationID() + ChatColor.YELLOW + " station.");
+        event.getPlayer().sendMessage(Reference.PLUGIN_PREFIX + ChatColor.YELLOW + "Currently playing " + ChatColor.WHITE + event.getStation().getCurrentSong().getTitle());
     }
     @EventHandler
     private void onPlayerTuneOutEvent(StationTuneOutEvent event)
@@ -48,15 +48,15 @@ public class StationListener implements Listener
     @EventHandler
     private void onStationPauseEvent(StationPauseEvent event)
     {
-        for(UUID uuid : event.getMusicStation().getTunedPlayers())
+        for(UUID uuid : event.getStation().getPlayers())
         {
             Bukkit.getPlayer(uuid).sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "Your station has been paused.");
         }
     }
     @EventHandler
-    private void onStationStopEvent(StationStopEvent event)
+    private void onStationStopEvent(StationEndEvent event)
     {
-        for(UUID uuid : event.getMusicStation().getTunedPlayers())
+        for(UUID uuid : event.getStation().getPlayers())
         {
             Bukkit.getPlayer(uuid).sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "Your station has been stopped.");
         }
