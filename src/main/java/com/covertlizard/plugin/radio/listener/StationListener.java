@@ -1,7 +1,8 @@
-package org.covertlizard.bukkit.plugin.radio.listener;
+package com.covertlizard.plugin.radio.listener;
 
 import com.covertlizard.api.radio.event.station.*;
-import org.covertlizard.bukkit.plugin.radio.reference.Reference;
+import com.covertlizard.plugin.radio.RadioPlugin;
+import com.covertlizard.plugin.radio.reference.Reference;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -10,11 +11,17 @@ import org.bukkit.event.Listener;
 import java.util.UUID;
 
 /**
- * Created by CovertLizard on 5/4/2015.
+ * Created by CovertLizard on 5/10/2015.
  * Project RadioPlugin
  */
+@SuppressWarnings("all")
 public class StationListener implements Listener
 {
+    private RadioPlugin plugin;
+    public StationListener(RadioPlugin plugin)
+    {
+        this.plugin = plugin;
+    }
     @EventHandler
     private void onStationNextSongEvent(StationPlayNextSongEvent event)
     {
@@ -50,7 +57,7 @@ public class StationListener implements Listener
     {
         for(UUID uuid : event.getStation().getPlayers())
         {
-            Bukkit.getPlayer(uuid).sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "Your station has been paused.");
+            Bukkit.getPlayer(uuid).sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "Your station has pause set to:" + event.getStation().isPaused() + ".");
         }
     }
     @EventHandler

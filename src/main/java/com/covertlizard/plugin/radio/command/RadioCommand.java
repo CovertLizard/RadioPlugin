@@ -1,8 +1,8 @@
-package org.covertlizard.bukkit.plugin.radio.command;
+package com.covertlizard.plugin.radio.command;
 
 import com.covertlizard.api.radio.midi.MidiStation;
-import org.covertlizard.bukkit.plugin.radio.RadioPlugin;
-import org.covertlizard.bukkit.plugin.radio.reference.Reference;
+import com.covertlizard.plugin.radio.RadioPlugin;
+import com.covertlizard.plugin.radio.reference.Reference;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,13 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * Created by CovertLizard on 5/4/2015.
+ * Created by CovertLizard on 5/10/2015.
  * Project RadioPlugin
  */
-public class RadioCommandExecutor implements CommandExecutor
+public class RadioCommand implements CommandExecutor
 {
     private RadioPlugin plugin;
-    public RadioCommandExecutor(RadioPlugin plugin)
+
+    public RadioCommand(RadioPlugin plugin)
     {
         this.plugin = plugin;
     }
@@ -42,12 +43,12 @@ public class RadioCommandExecutor implements CommandExecutor
                                 sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "You must be a player to run this command without arguments!");
                                 break;
                             }
-                            if (!this.plugin.stationHelper.isInStation((Player) sender))
+                            if (!this.plugin.stationHelper.isInStation(((Player) sender).getUniqueId()))
                             {
                                 sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "You are not in a station!");
                                 break;
                             }
-                            this.plugin.stationHelper.getPlayerStation((Player) sender).pause();
+                            this.plugin.stationHelper.getPlayerStation(((Player) sender).getUniqueId()).pause();
                             break;
                         }
                         if (args.length == 2)
@@ -56,7 +57,7 @@ public class RadioCommandExecutor implements CommandExecutor
                             {
                                 if (!this.plugin.stationHelper.stationExists(args[1].toLowerCase()))
                                 {
-                                    this.plugin.stationHelper.getStationFromName(args[1].toLowerCase()).pause();
+                                    this.plugin.stationHelper.getMidiStationForMusicStation(this.plugin.stationHelper.getMusicStationFromID(args[1].toLowerCase())).pause();
                                     break;
                                 }
                                 sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "The station does not exist!");
@@ -86,12 +87,12 @@ public class RadioCommandExecutor implements CommandExecutor
                                 sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "You must be a player to run this command without arguments!");
                                 break;
                             }
-                            if (!this.plugin.stationHelper.isInStation((Player) sender))
+                            if (!this.plugin.stationHelper.isInStation(((Player) sender).getUniqueId()))
                             {
                                 sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "You are not in a station!");
                                 break;
                             }
-                            this.plugin.stationHelper.getPlayerStation((Player) sender).end();
+                            this.plugin.stationHelper.getPlayerStation(((Player) sender).getUniqueId()).end();
                             break;
                         }
                         if (args.length == 2)
@@ -100,7 +101,7 @@ public class RadioCommandExecutor implements CommandExecutor
                             {
                                 if (!this.plugin.stationHelper.stationExists(args[1].toLowerCase()))
                                 {
-                                    this.plugin.stationHelper.getStationFromName(args[1].toLowerCase()).end();
+                                    this.plugin.stationHelper.getMidiStationForMusicStation(this.plugin.stationHelper.getMusicStationFromID(args[1].toLowerCase())).end();
                                     break;
                                 }
                                 sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "The station does not exist!");
@@ -108,7 +109,7 @@ public class RadioCommandExecutor implements CommandExecutor
                             }
                             if (sender.hasPermission("radio.stop.all"))
                             {
-                                this.plugin.stationHelper.stopStations();
+                                this.plugin.stationHelper.stopStations(false);
                                 this.plugin.getServer().broadcastMessage(Reference.PLUGIN_PREFIX + ChatColor.DARK_RED + "All radio stations have been stopped by " + sender.getName() + "!");
                                 break;
                             }
@@ -130,13 +131,12 @@ public class RadioCommandExecutor implements CommandExecutor
                                 sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "You must be a player to run this command without arguments!");
                                 break;
                             }
-                            if (!this.plugin.stationHelper.isInStation((Player) sender))
+                            if (!this.plugin.stationHelper.isInStation(((Player) sender).getUniqueId()))
                             {
                                 sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "You are not in a station!");
                                 break;
                             }
-                       // might have to add this     this.plugin.stationHelper.getPlayerStation((Player) sender).load();
-                            this.plugin.stationHelper.getPlayerStation((Player) sender).begin();
+                            this.plugin.stationHelper.getPlayerStation(((Player) sender).getUniqueId()).begin();
                             break;
                         }
                         if (args.length == 2)
@@ -145,8 +145,8 @@ public class RadioCommandExecutor implements CommandExecutor
                             {
                                 if (!this.plugin.stationHelper.stationExists(args[1].toLowerCase()))
                                 {
-                                  // might have to add this  this.plugin.stationHelper.getStationFromName(args[1].toLowerCase()).start();
-                                    this.plugin.stationHelper.getStationFromName(args[1].toLowerCase()).begin();
+                                    // might have to add this  this.plugin.stationHelper.getStationFromName(args[1].toLowerCase()).start();
+                                    this.plugin.stationHelper.getMidiStationForMusicStation(this.plugin.stationHelper.getMusicStationFromID(args[1].toLowerCase())).begin();
                                     break;
                                 }
                                 sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.RED + "The station does not exist!");
@@ -187,11 +187,12 @@ public class RadioCommandExecutor implements CommandExecutor
                 case "reload":
                     if(sender.hasPermission("radio.reload"))
                     {
-                        sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.BLUE + "Reloaded radio plugin.");
-                        this.plugin.stationHelper.stopStations();
-                        this.plugin.stationHelper.clearStations();
-                        this.plugin.registerStations();
+                        this.plugin.config.loadConfig();
+                        this.plugin.stationHelper.stopStations(true);
+                        this.plugin.stationHelper.clear();
+                        this.plugin.stationHelper.loadStations();
                         this.plugin.stationHelper.startStations();
+                        sender.sendMessage(Reference.PLUGIN_PREFIX + ChatColor.BLUE + "Reloaded radio plugin.");
                         break;
                     }
                     sendPermissionInvalidMessage(sender);
